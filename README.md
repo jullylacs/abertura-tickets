@@ -1,44 +1,90 @@
-### Abertura-Tickets
-## Descrição
+# 🎫 Abertura-Tickets
 
-O projeto Abertura-Tickets é uma aplicação web para abertura e controle de tickets de suporte/serviços, desenvolvida com Next.js e Prisma (ORM) — oferecendo uma interface moderna e funcional para registrar, visualizar e gerenciar solicitações.
-Ele permite que usuários autentiquem-se, abram tickets, visualizem históricos e que administradores ou equipe de suporte acompanhem e atualizem os status desses tickets.
+> Sistema simples e moderno para **abertura e gestão de tickets de suporte**.  
+> Desenvolvido com **Next.js**, **Prisma** e **TypeScript**.
 
-Funcionalidades principais
+---
 
-Autenticação de usuários (login/cadastro)
+## 📋 Sumário
+- [Descrição](#-descrição)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias](#-tecnologias)
+- [Arquitetura](#-arquitetura)
+- [Modelo de Dados (Prisma)](#-modelo-de-dados-prisma)
+- [Instalação e Execução](#-instalação-e-execução)
+- [Documentação da API](#-documentação-da-api)
+- [Fluxo do Sistema](#-fluxo-do-sistema)
+- [Testes](#-testes)
+- [Contribuição](#-contribuição)
+- [Licença](#-licença)
+- [Contato](#-contato)
 
-Abertura de tickets com título, descrição e categoria
+---
 
-Listagem de tickets (por usuário, por status)
+## 🧾 Descrição
 
-Visualização de detalhes de cada ticket
+O **Abertura-Tickets** é uma aplicação web para **registrar e acompanhar tickets de suporte técnico**.  
+Usuários podem criar solicitações, visualizar o histórico e acompanhar o andamento.  
+A equipe de suporte pode alterar status, responder e encerrar tickets.
 
-Alteração de status dos tickets (ex: aberto, em andamento, concluído)
+> 💡 Foco em escalabilidade, boas práticas e uma interface intuitiva.
 
-Persistência de dados com banco via Prisma
+---
 
-Front-end responsivo construído com Next.js + Tailwind CSS
+## 🚀 Funcionalidades
 
-Tecnologias utilizadas
+✅ Autenticação de usuários (login e cadastro)  
+✅ Criação e listagem de tickets  
+✅ Atualização de status (aberto, em andamento, concluído)  
+✅ Filtros por status e usuário  
+✅ Interface responsiva com Tailwind CSS  
+✅ Persistência via Prisma ORM  
 
-Next.js (React)
+---
 
-TypeScript
+## 🧰 Tecnologias
 
-Tailwind CSS
+| Camada | Tecnologias |
+|:-------|:-------------|
+| **Frontend** | Next.js, React, TypeScript, Tailwind CSS |
+| **Backend** | API Routes (Next.js), Prisma ORM |
+| **Banco de Dados** | PostgreSQL (ou compatível) |
+| **Autenticação** | NextAuth.js |
+| **Infraestrutura** | Node.js, Vercel |
 
-Prisma ORM
+---
 
-Banco de dados (ex: PostgreSQL / MySQL – conforme configuração)
 
-(Opcional) Vercel para deploy
+---
 
-Outros: ESLint, PostCSS, etc
+## 🗄️ Modelo de Dados (Prisma)
 
-Instalação e configuração
+```prisma
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  tickets   Ticket[]
+  createdAt DateTime @default(now())
+}
 
-Estas instruções assumem que você já tem Node.js (versão >= 16) instalado.
+model Ticket {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  status      Status   @default(OPEN)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
 
 # Clone o repositório
 git clone https://github.com/jullylacs/abertura-tickets.git
@@ -48,63 +94,16 @@ cd abertura-tickets
 npm install
 # ou
 yarn
-# ou
-pnpm install
 
-# Configure variáveis de ambiente
-# Crie um arquivo `.env` com pelo menos:
-#   DATABASE_URL="postgresql://usuario:senha@localhost:5432/nomedb?schema=public"
-#   NEXTAUTH_URL="http://localhost:3000"
-#   NEXTAUTH_SECRET="uma-senha-forte-aqui"
-#   etc.
+# Configure o arquivo .env
+cp .env.example .env
+# Edite DATABASE_URL, NEXTAUTH_SECRET, etc.
 
-# Execute migrações do Prisma (caso haja)
-npx prisma migrate dev    # ou prisma db push, conforme setup
+# Execute migrações do Prisma
+npx prisma migrate dev
 
 # Inicie o servidor de desenvolvimento
 npm run dev
-# ou
-yarn dev
-# ou
-pnpm dev
 
-# Abra no navegador:
+# Acesse no navegador:
 http://localhost:3000
-
-Estrutura de pasta (resumo)
-/
-├─ prisma/                 -- esquemas e migrações do banco
-├─ public/                 -- arquivos públicos (imagens, ícones, etc)
-├─ scripts/                -- scripts auxiliares (seed, etc)
-├─ src/
-│   ├─ pages/              -- rotas do Next.js
-│   ├─ components/         -- componentes reutilizáveis UI
-│   ├─ lib/                -- bibliotecas e utilitários
-│   ├─ models/             -- definições de tipos e entidades (opcional)
-│   └─ styles/             -- estilos globais, Tailwind config, etc
-├─ next.config.js/.ts      -- configuração do Next.js
-├─ tailwind.config.js      -- configuração do Tailwind CSS
-├─ tsconfig.json           -- configuração TypeScript
-└─ package.json
-
-Uso
-
-Usuário realiza login ou cadastro
-
-Usuário abre um novo ticket preenchendo título, descrição e selecionando categoria
-
-Usuário ou equipe de suporte podem visualizar a lista de tickets (filtrados por status ou usuário)
-
-Um ticket pode ser atualizado: por exemplo-mudar seu status, adicionar comentários (se implementado)
-
-Administradores podem fechar/resolver tickets e gerar relatórios ou histórico (dependendo da extensão do projeto)
-
-Testes
-
-Se houverem testes configurados, você pode rodá-los com:
-
-npm run test
-# ou
-yarn test
-# ou
-pnpm test
