@@ -1,38 +1,110 @@
-# Projeto Next.js
+### Abertura-Tickets
+## Descrição
 
-Este é um projeto [Next.js](https://nextjs.org) criado com [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+O projeto Abertura-Tickets é uma aplicação web para abertura e controle de tickets de suporte/serviços, desenvolvida com Next.js e Prisma (ORM) — oferecendo uma interface moderna e funcional para registrar, visualizar e gerenciar solicitações.
+Ele permite que usuários autentiquem-se, abram tickets, visualizem históricos e que administradores ou equipe de suporte acompanhem e atualizem os status desses tickets.
 
-## Primeiros Passos
+Funcionalidades principais
 
-Para iniciar o servidor de desenvolvimento, execute:
+Autenticação de usuários (login/cadastro)
 
-```bash
+Abertura de tickets com título, descrição e categoria
+
+Listagem de tickets (por usuário, por status)
+
+Visualização de detalhes de cada ticket
+
+Alteração de status dos tickets (ex: aberto, em andamento, concluído)
+
+Persistência de dados com banco via Prisma
+
+Front-end responsivo construído com Next.js + Tailwind CSS
+
+Tecnologias utilizadas
+
+Next.js (React)
+
+TypeScript
+
+Tailwind CSS
+
+Prisma ORM
+
+Banco de dados (ex: PostgreSQL / MySQL – conforme configuração)
+
+(Opcional) Vercel para deploy
+
+Outros: ESLint, PostCSS, etc
+
+Instalação e configuração
+
+Estas instruções assumem que você já tem Node.js (versão >= 16) instalado.
+
+# Clone o repositório
+git clone https://github.com/jullylacs/abertura-tickets.git
+cd abertura-tickets
+
+# Instale as dependências
+npm install
+# ou
+yarn
+# ou
+pnpm install
+
+# Configure variáveis de ambiente
+# Crie um arquivo `.env` com pelo menos:
+#   DATABASE_URL="postgresql://usuario:senha@localhost:5432/nomedb?schema=public"
+#   NEXTAUTH_URL="http://localhost:3000"
+#   NEXTAUTH_SECRET="uma-senha-forte-aqui"
+#   etc.
+
+# Execute migrações do Prisma (caso haja)
+npx prisma migrate dev    # ou prisma db push, conforme setup
+
+# Inicie o servidor de desenvolvimento
 npm run dev
 # ou
 yarn dev
 # ou
 pnpm dev
+
+# Abra no navegador:
+http://localhost:3000
+
+Estrutura de pasta (resumo)
+/
+├─ prisma/                 -- esquemas e migrações do banco
+├─ public/                 -- arquivos públicos (imagens, ícones, etc)
+├─ scripts/                -- scripts auxiliares (seed, etc)
+├─ src/
+│   ├─ pages/              -- rotas do Next.js
+│   ├─ components/         -- componentes reutilizáveis UI
+│   ├─ lib/                -- bibliotecas e utilitários
+│   ├─ models/             -- definições de tipos e entidades (opcional)
+│   └─ styles/             -- estilos globais, Tailwind config, etc
+├─ next.config.js/.ts      -- configuração do Next.js
+├─ tailwind.config.js      -- configuração do Tailwind CSS
+├─ tsconfig.json           -- configuração TypeScript
+└─ package.json
+
+Uso
+
+Usuário realiza login ou cadastro
+
+Usuário abre um novo ticket preenchendo título, descrição e selecionando categoria
+
+Usuário ou equipe de suporte podem visualizar a lista de tickets (filtrados por status ou usuário)
+
+Um ticket pode ser atualizado: por exemplo-mudar seu status, adicionar comentários (se implementado)
+
+Administradores podem fechar/resolver tickets e gerar relatórios ou histórico (dependendo da extensão do projeto)
+
+Testes
+
+Se houverem testes configurados, você pode rodá-los com:
+
+npm run test
 # ou
-bun dev
-```
-
-Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
-
-Você pode começar a editar a página modificando o arquivo `app/page.tsx`. As alterações são aplicadas automaticamente.
-
-Este projeto utiliza [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) para otimizar e carregar automaticamente a fonte [Geist](https://vercel.com/font), uma nova família tipográfica da Vercel.
-
-## Saiba Mais
-
-Para saber mais sobre Next.js, confira os seguintes recursos:
-
-- [Documentação do Next.js](https://nextjs.org/docs) - conheça os recursos e a API do Next.js.
-- [Aprenda Next.js](https://nextjs.org/learn) - tutorial interativo de Next.js.
-
-Você também pode acessar o [repositório do Next.js no GitHub](https://github.com/vercel/next.js) para contribuir ou enviar feedback!
-
-## Deploy na Vercel
-
-A maneira mais fácil de fazer deploy do seu app Next.js é usando a [plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme), criada pelos desenvolvedores do Next.js.
-
-Confira a [documentação de deploy do Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para mais detalhes.
+yarn test
+# ou
+pnpm test
